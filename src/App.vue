@@ -1,26 +1,13 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
+    <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
         <v-img
-          alt="Vuetify Logo"
+          alt="Nvidia Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="/assets/logo.svg"
           transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
         />
       </div>
@@ -28,7 +15,7 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        href="https://www.nvidia.com/en-us/geforce-now/release-highlights/"
         target="_blank"
         text
       >
@@ -38,24 +25,36 @@
     </v-app-bar>
 
     <v-content>
-      <HelloWorld/>
+      <Home />
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import Vue from "vue";
+import Home from "@/pages/Home.vue";
 
 export default Vue.extend({
-  name: 'App',
+  name: "App",
 
   components: {
-    HelloWorld,
+    Home
   },
 
   data: () => ({
     //
-  }),
+  })
 });
 </script>
+
+<style lang="scss">
+html {
+  height: 100%;
+  scrollbar-width: none; /* For disabling vertical scrolbar from showing on Firefox */
+  -ms-overflow-style: none; /* For disabling vertical scrolbar from showing on Internet Explorer and Edge */
+}
+
+html::-webkit-scrollbar {
+  width: 0px; /* For disabling vertical scrolbar from showing on Chrome, Safari, and Opera */
+}
+</style>
