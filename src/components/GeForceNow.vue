@@ -1,7 +1,14 @@
 <template>
   <v-container>
     <h2>GeForce NOW Games</h2>
-    <v-card v-for="game in games" :key="game.id">{{ game.title }}</v-card>
+    <v-card
+      v-for="game in games"
+      :key="game.id"
+      outlined
+      class="d-inline-block my-2 d-flex"
+    >
+      <v-card-title>{{ game.title }}</v-card-title>
+    </v-card>
   </v-container>
 </template>
 
