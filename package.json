@@ -10,6 +10,7 @@
     "core-js": "^3.6.5",
     "material-design-icons-iconfont": "^5.0.1",
     "roboto-fontface": "*",
+    "rxjs": "^6.5.5",
     "vue": "^2.6.11",
     "vuetify": "^2.2.11"
   },
