@@ -1,8 +1,10 @@
 import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+// Import local functions
+import SteamApp from './steam/app';
+
+admin.initializeApp();
+
+// Allows a user to login to Firebase using Steam
+exports.steam = functions.https.onRequest(SteamApp);
