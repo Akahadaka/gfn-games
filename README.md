@@ -33,6 +33,18 @@ $ cd functions
 $ npm install
 ```
 
+For the Steam API to work locally, your own Steam API key is required. This can be obtained from https://steamcommunity.com/dev/apikey
+
+This key should be kept private and not committed to the repo. Add it to the file `/functions/.runtimeconfig.json` in the following format
+
+```json
+{
+  "steam": {
+    "apikey": "MYSTEAMAPIKEY"
+  }
+}
+```
+
 #### Compile and emulate for development
 
 ```
