@@ -7,21 +7,40 @@ Display a list of all supported games by GeForce NOW. Log in with Steam (and in 
 ### Project setup
 
 ```
-npm install
+$ npm install
 ```
 
 #### Compiles and hot-reloads for development
 
 ```
-npm run serve
+$ npm run serve
 ```
 
-#### Compiles and minifies for production
+#### Compiles, minifies for production and deploys to Firebase Hosting
 
 ```
-npm run build
+$ npm run deploy
 ```
 
-#### Customize configuration
+## Firebase Cloud Functions
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Note, all npm commands should be run in the `/functions` sub-folder
+
+#### Project setup
+
+```
+$ cd functions
+$ npm install
+```
+
+#### Compile and emulate for development
+
+```
+$ npm run serve
+```
+
+#### Deploy
+
+```
+$ npm run deploy
+```
