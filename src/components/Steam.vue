@@ -23,6 +23,7 @@
         </v-container>
       </template>
     </template>
+
     <form v-else>
       <v-card
         outlined
@@ -103,6 +104,7 @@ export default Vue.extend({
 }
 .fixed {
   position: fixed;
+  width: calc(100vw - 58%);
 }
 .matched {
   background-color: var(--v-secondary-base);
