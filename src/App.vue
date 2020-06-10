@@ -10,7 +10,7 @@
           alt="Nvidia Logo"
           class="shrink mr-2"
           contain
-          src="/assets/logo.svg"
+          src="/assets/nvidia.svg"
           transition="scale-transition"
           width="100"
         />

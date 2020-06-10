@@ -15,7 +15,16 @@
           class="d-inline-block my-2 d-flex"
         >
           <template v-if="game.source == 'GFN'">
-            <v-card-title class="title">{{ game.title }}</v-card-title>
+            <v-container class="pa-0 d-flex justify-space-between">
+              <v-card-title class="title">{{ game.title }}</v-card-title>
+              <v-avatar
+                v-if="game.steamUrl"
+                size="20"
+                class="ma-3 mt-4"
+              >
+                <img src="/assets/steam.svg" />
+              </v-avatar>
+            </v-container>
           </template>
           <template v-else>
             <v-card-title class="title">-</v-card-title>
