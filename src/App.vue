@@ -1,6 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
       <div class="d-flex align-center">
         <v-img
           alt="Nvidia Logo"
@@ -50,11 +54,11 @@ export default Vue.extend({
 <style lang="scss">
 html {
   height: 100%;
-  scrollbar-width: none; /* For disabling vertical scrolbar from showing on Firefox */
-  -ms-overflow-style: none; /* For disabling vertical scrolbar from showing on Internet Explorer and Edge */
+  // scrollbar-width: none; /* For disabling vertical scrolbar from showing on Firefox */
+  // -ms-overflow-style: none; /* For disabling vertical scrolbar from showing on Internet Explorer and Edge */
 }
 
-html::-webkit-scrollbar {
-  width: 0px; /* For disabling vertical scrolbar from showing on Chrome, Safari, and Opera */
-}
+// html::-webkit-scrollbar {
+//   width: 0px; /* For disabling vertical scrolbar from showing on Chrome, Safari, and Opera */
+// }
 </style>
