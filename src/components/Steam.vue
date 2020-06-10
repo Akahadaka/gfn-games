@@ -1,6 +1,15 @@
 <template>
   <v-container :class="!authenticated && 'fixed'">
-    <h2>Steam Games</h2>
+    <v-container class="d-flex justify-space-between">
+      <h2>Steam Games</h2>
+      <v-btn
+        icon
+        @click="onVisibility"
+        class="visibility-btn"
+      >
+        <v-icon>{{visibility ? 'visibility' : 'visibility_off'}}</v-icon>
+      </v-btn>
+    </v-container>
     <template v-if="authenticated">
       <template v-for="game in games">
         <v-container
@@ -42,7 +51,7 @@
             v-model="steamid"
             label="Enter your Steam ID"
           />
-          <v-btn @click="submit">Okay</v-btn>
+          <v-btn @click="onSubmit">Okay</v-btn>
         </v-container>
       </v-card>
     </form>
@@ -66,6 +75,7 @@ export default Vue.extend({
       steamid: '' as string,
       authenticated: false as boolean,
       loading: false as boolean,
+      visibility: true as boolean,
     };
   },
 
@@ -91,9 +101,13 @@ export default Vue.extend({
   },
 
   methods: {
-    submit() {
+    onSubmit() {
       this.loading = true;
       steamService.steamid = this.steamid;
+    },
+    onVisibility() {
+      this.visibility = !this.visibility;
+      steamService.filter = this.visibility ? [] : this.matches;
     },
   },
 
