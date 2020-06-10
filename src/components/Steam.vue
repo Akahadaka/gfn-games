@@ -24,6 +24,10 @@
       </template>
     </template>
 
+    <v-container v-else-if="loading">
+      <p>Fetching Steam games...</p>
+    </v-container>
+
     <form v-else>
       <v-card
         outlined
@@ -61,6 +65,7 @@ export default Vue.extend({
       matches: [] as number[],
       steamid: '' as string,
       authenticated: false as boolean,
+      loading: false as boolean,
     };
   },
 
@@ -80,12 +85,14 @@ export default Vue.extend({
       if (games.find((game: Game) => game.source == 'Steam')) {
         this.games = games;
         this.authenticated = true;
+        this.loading = false;
       }
     });
   },
 
   methods: {
     submit() {
+      this.loading = true;
       steamService.steamid = this.steamid;
     },
   },
