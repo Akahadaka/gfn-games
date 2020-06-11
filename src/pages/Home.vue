@@ -1,11 +1,11 @@
 <template>
   <main id="home">
     <v-container>
-      <v-row cols="12">
-        <v-col>
+      <v-row class="games-list">
+        <v-col cole="6">
           <GeForceNow />
         </v-col>
-        <v-col>
+        <v-col cols="6">
           <Steam />
         </v-col>
       </v-row>
@@ -28,4 +28,8 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.games-list {
+  scrollbar-width: auto;
+}
+</style>

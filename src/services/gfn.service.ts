@@ -10,8 +10,6 @@ import {
   flatMap,
 } from 'rxjs/operators';
 
-import data from './gfn.data.json';
-
 const genres = [
   'Action',
   'Adventure',
@@ -37,6 +35,7 @@ export type Genre = typeof genres;
 
 export interface Game {
   id: number;
+  appid?: number;
   title: string;
   isFullyOptimized: boolean;
   isHighlightsSupported: boolean;
@@ -44,6 +43,7 @@ export interface Game {
   publisher: string;
   genres: Genre[];
   status: string;
+  source: 'GFN';
 }
 
 export interface ResponseError {
@@ -52,14 +52,9 @@ export interface ResponseError {
 }
 
 class GfnService {
-  get staticGames$(): Observable<Game[]> {
-    return of(data).pipe(
-      tap(console.log),
-    );
-  }
-
   get games$(): Observable<Game[] | ResponseError> {
-    const url: string = 'https://static.nvidiagrid.net/supported-public-game-list/gfnpc.json?JSON';
+    const url: string =
+      'https://static.nvidiagrid.net/supported-public-game-list/gfnpc.json?JSON';
 
     return fromFetch(url).pipe(
       switchMap((response: Response) => {
@@ -67,8 +62,19 @@ class GfnService {
           // Server is returning a status requiring the client to try something else.
           return of({ error: true, message: `Error ${response.status}` });
         }
-
         return response.json();
+      }),
+      // Add source to the game model
+      map((games: Game[]) => {
+        return games.map((game: Game) => {
+          return {
+            ...game,
+            appid: game.steamUrl
+              ? Number(game.steamUrl.split('/').pop())
+              : null,
+            source: 'GFN',
+          } as Game;
+        });
       }),
       catchError((err: Error) => {
         // Network or other error, handle appropriately
