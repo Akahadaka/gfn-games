@@ -125,6 +125,7 @@ export default Vue.extend({
 }
 .fixed {
   position: fixed;
+  // TODO Find out how to contain a position:fixed element in parent bounds
   width: calc(100vw - 58%);
 }
 .matched {

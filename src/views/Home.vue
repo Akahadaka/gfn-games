@@ -1,7 +1,7 @@
 <template>
   <main id="home">
     <v-container>
-      <v-row class="games-list">
+      <v-row>
         <v-col cole="6">
           <GeForceNow />
         </v-col>
@@ -29,7 +29,4 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.games-list {
-  scrollbar-width: auto;
-}
 </style>
