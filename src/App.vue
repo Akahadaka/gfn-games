@@ -29,7 +29,7 @@
     </v-app-bar>
 
     <v-content>
-      <Home />
+      <router-view />
     </v-content>
   </v-app>
 </template>
@@ -54,11 +54,32 @@ export default Vue.extend({
 <style lang="scss">
 html {
   height: 100%;
-  // scrollbar-width: none; /* For disabling vertical scrolbar from showing on Firefox */
-  // -ms-overflow-style: none; /* For disabling vertical scrolbar from showing on Internet Explorer and Edge */
+  // scrollbar-width   : none;  // For disabling vertical scrolbar from showing on Firefox
+  // -ms-overflow-style: none;  // For disabling vertical scrolbar from showing on Internet Explorer and Edge
 }
 
-// html::-webkit-scrollbar {
-//   width: 0px; /* For disabling vertical scrolbar from showing on Chrome, Safari, and Opera */
-// }
+html::-webkit-scrollbar {
+  // width: 0px; // For disabling vertical scrolbar from showing on Chrome, Safari, and Opera
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
 </style>
