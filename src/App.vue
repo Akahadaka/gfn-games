@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Home from "@/pages/Home.vue";
+import Home from "@/views/Home.vue";
 
 export default Vue.extend({
   name: "App",
