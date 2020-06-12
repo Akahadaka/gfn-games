@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import protoypeService from '@/services/prototype.service';
 
 export default Vue.extend({
   name: "Prototype",
