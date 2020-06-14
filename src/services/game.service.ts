@@ -12,6 +12,7 @@ export interface Game {
   source: 'Steam' | 'GFN';
   match: boolean;
   steamUrl: string;
+  free: boolean;
 }
 
 class GameService {
@@ -30,6 +31,7 @@ class GameService {
               title: item.title || item.name,
               source: item.source,
               steamUrl: item.steamUrl || null,
+              free: item.free || null,
             } as Game;
           });
         });
