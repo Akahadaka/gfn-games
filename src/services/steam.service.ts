@@ -35,6 +35,9 @@ class SteamService {
   private gamesList: Game[] = [];
   private steamUser: string = '';
 
+  private readonly APIURL =
+    'https://us-central1-gfn-games.cloudfunctions.net/steam';
+
   set steamid(id: string) {
     this.steamid$.next(id);
   }
@@ -69,7 +72,7 @@ class SteamService {
   }
 
   private fetchGames$(id: string): Observable<Game[]> {
-    const url: string = `https://us-central1-gfn-games.cloudfunctions.net/steam/profile/${id}/GetOwnedGames`;
+    const url: string = `${this.APIURL}/profile/${id}/GetOwnedGames`;
     return fromFetch(url).pipe(
       switchMap((response: Response) => {
         if (!response.ok) {

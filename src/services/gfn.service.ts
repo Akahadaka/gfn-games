@@ -41,9 +41,10 @@ export interface Game {
   isHighlightsSupported: boolean;
   steamUrl: string;
   publisher: string;
-  genres: Genre[];
+  genres: Genre;
   status: string;
   source: 'GFN';
+  free: boolean;
 }
 
 export interface ResponseError {
@@ -52,9 +53,11 @@ export interface ResponseError {
 }
 
 class GfnService {
+  private readonly APIURL =
+    'https://us-central1-gfn-games.cloudfunctions.net/gfn';
+
   get games$(): Observable<Game[] | ResponseError> {
-    const url: string =
-      'https://static.nvidiagrid.net/supported-public-game-list/gfnpc.json?JSON';
+    const url: string = `${this.APIURL}/GetAllGames`;
 
     return fromFetch(url).pipe(
       switchMap((response: Response) => {
@@ -73,6 +76,7 @@ class GfnService {
               ? Number(game.steamUrl.split('/').pop())
               : null,
             source: 'GFN',
+            free: game.genres.includes('Free To Play'),
           } as Game;
         });
       }),

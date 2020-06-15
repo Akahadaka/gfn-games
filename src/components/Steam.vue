@@ -15,7 +15,7 @@
         <v-container
           :key="game.id"
           class="py-0"
-          v-bind:class="{'matched py-2': matches.includes(game.appid)}"
+          v-bind:class="{'matched py-2': game.free || matches.includes(game.appid), 'non-steam' : !game.appid}"
           v-if="!matches.includes(game.appid) || game.source == 'Steam'"
         >
           <v-card
@@ -26,7 +26,7 @@
               <v-card-title class="title">{{ game.title }}</v-card-title>
             </template>
             <template v-else>
-              <v-card-title class="title">-</v-card-title>
+              <v-card-title class="title"><small>-</small></v-card-title>
             </template>
           </v-card>
         </v-container>
@@ -61,7 +61,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 
 import gameService, { Game } from "@/services/game.service";
 import steamService from '@/services/steam.service';
@@ -82,7 +82,7 @@ export default Vue.extend({
   created() {
     this.gamesSubscription = gameService.games$.pipe(
       // Find the matches between Steam and Geforce NOW
-      tap((games: Game[]) => {
+      map((games: Game[]) => {
         let prev: Game;
         games.map((game: Game) => {
           if (prev && game.appid && prev.appid === game.appid) {
@@ -90,8 +90,10 @@ export default Vue.extend({
           }
           prev = game;
         });
-      })
+        return games;
+      }),
     ).subscribe((games: Game[]) => {
+      // Display only if there are Steam games in the list
       if (games.find((game: Game) => game.source == 'Steam')) {
         this.games = games;
         this.authenticated = true;
@@ -130,5 +132,8 @@ export default Vue.extend({
 }
 .matched {
   background-color: var(--v-secondary-base);
+  &.non-steam {
+    background-color: var(--v-primary-base);
+  }
 }
 </style>
