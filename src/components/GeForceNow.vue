@@ -1,5 +1,5 @@
 <template>
-  <v-container ref="list">
+  <v-container>
     <v-container>
       <h2>GeForce NOW Games</h2>
     </v-container>
