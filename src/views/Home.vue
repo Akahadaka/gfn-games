@@ -1,15 +1,13 @@
 <template>
   <main id="home">
-    <v-container>
-      <v-row>
-        <v-col cole="6">
-          <GeForceNow />
-        </v-col>
-        <v-col cols="6">
-          <Steam />
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-row>
+      <v-col cols="6">
+        <GeForceNow />
+      </v-col>
+      <v-col cols="6">
+        <Steam />
+      </v-col>
+    </v-row>
   </main>
 </template>
 
