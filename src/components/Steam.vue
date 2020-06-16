@@ -53,6 +53,25 @@
           />
           <v-btn @click="onSubmit">Okay</v-btn>
         </v-container>
+        <v-container v-if="recentIds && recentIds.length">
+          <v-layout justify-start>
+            <v-flex>
+              <v-card flat align-start>
+                <v-card-title>
+                  <v-row align="left">Recent IDs</v-row>
+                </v-card-title>
+                <v-card-text 
+                  v-for="recentId in recentIds"
+                  :key="recentId">
+                  <v-row 
+                    style="cursor: pointer;"
+                    align="left"
+                    @click="steamid = recentId">{{ recentId }}</v-row>
+                </v-card-text>
+              </v-card>
+            </v-flex>
+          </v-layout>    
+        </v-container>
       </v-card>
     </form>
   </v-container>
@@ -65,6 +84,8 @@ import { tap } from 'rxjs/operators';
 
 import gameService, { Game } from "@/services/game.service";
 import steamService from '@/services/steam.service';
+import { LocalStorageKeyEnum, LocalStorageService } from '@/services/localStorage.service';
+
 
 export default Vue.extend({
   data() {
@@ -76,6 +97,7 @@ export default Vue.extend({
       authenticated: false as boolean,
       loading: false as boolean,
       visibility: true as boolean,
+      recentIds: [] as string[]
     };
   },
 
@@ -98,17 +120,29 @@ export default Vue.extend({
         this.loading = false;
       }
     });
+
+    const localStorageService = new LocalStorageService();
+    this.recentIds = JSON.parse(localStorageService.get(LocalStorageKeyEnum.RecentlyUsedIds) || '[]');
   },
 
   methods: {
     onSubmit() {
       this.loading = true;
       steamService.steamid = this.steamid;
+
+      this.recentIds.push(this.steamid);
     },
     onVisibility() {
       this.visibility = !this.visibility;
       steamService.filter = this.visibility ? [] : this.matches;
     },
+  },
+
+  watch: {
+    recentIds(newVal) {
+      const localStorageService = new LocalStorageService();
+      localStorageService.set(LocalStorageKeyEnum.RecentlyUsedIds, JSON.stringify(newVal));
+    }
   },
 
   beforeDestroy() {
