@@ -1,8 +1,8 @@
-enum LocalStorageKeyEnum {
+export enum LocalStorageKeyEnum {
   RecentlyUsedIds = '_recently_used_id'
 }
 
-class LocalStorageService {
+export class LocalStorageService {
 
   private _isLocalStorageAvailable(){
       const testKey = '___TEST___';
@@ -37,4 +37,3 @@ class LocalStorageService {
   }
 }
 
-export default new LocalStorageService();
