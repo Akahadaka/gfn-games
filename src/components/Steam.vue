@@ -13,7 +13,7 @@
     <template v-if="authenticated">
       <template v-for="game in games">
         <v-container
-          :key="game.id"
+          :key="'Steam'+game.id"
           class="py-0"
           v-bind:class="{'matched py-2': game.free || matches.includes(game.appid), 'non-steam' : !game.appid}"
           v-if="!matches.includes(game.appid) || game.source == 'Steam'"
@@ -23,7 +23,9 @@
             class="d-inline-block my-2 d-flex"
           >
             <template v-if="game.source == 'Steam'">
-              <v-card-title class="title">{{ game.title }}</v-card-title>
+              <v-card-title class="title">
+                <span class="title-text">{{game.title}}</span>
+              </v-card-title>
             </template>
             <template v-else>
               <v-card-title class="title"><small>-</small></v-card-title>
@@ -122,13 +124,23 @@ export default Vue.extend({
 <style scoped lang="scss">
 .title {
   max-height: 48px;
-  overflow: hidden;
   padding: 10px;
+  overflow: hidden;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    height: 0;
+  }
+  &-text {
+    white-space: nowrap;
+    padding-right: 10px;
+  }
 }
 .fixed {
   position: fixed;
   // TODO Find out how to contain a position:fixed element in parent bounds
-  width: calc(100vw - 58%);
+  width: calc(100vw - 50% - 24px);
 }
 .matched {
   background-color: var(--v-secondary-base);

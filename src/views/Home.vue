@@ -1,10 +1,16 @@
 <template>
   <main id="home">
     <v-row>
-      <v-col cols="6">
+      <v-col
+        cols="6"
+        class="col-left"
+      >
         <GeForceNow />
       </v-col>
-      <v-col cols="6">
+      <v-col
+        cols="6"
+        class="col-right"
+      >
         <Steam />
       </v-col>
     </v-row>
@@ -27,4 +33,12 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+.col {
+  &-left {
+    padding-right: 0;
+  }
+  &-right {
+    padding-left: 0;
+  }
+}
 </style>
