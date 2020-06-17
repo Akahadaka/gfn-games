@@ -34,13 +34,14 @@ interface Game {
   status: string;
   source: 'GFN';
   free?: boolean;
+  updated: Date;
 }
 
 // Connect to Firestore and run the query
 const afs: FirebaseFirestore.Firestore = admin.firestore();
 const gfnRef: FirebaseFirestore.CollectionReference = afs.collection('gfn');
 
-const GfnCron = async (request?: any, response?: any): Promise<string> => {
+const GfnCron = async (request?: any, response?: any): Promise<void> => {
   // We can only batch write a max of 500 lines at a time
   // Trying a smaller number because the last few records don't seem to get updated
   const maxBatchSize: number = 100;
@@ -56,6 +57,7 @@ const GfnCron = async (request?: any, response?: any): Promise<string> => {
   return gfnRef
     .get()
     .then((data) => {
+      let date: Date;
       let batch = afs.batch();
       let count = 1;
 
@@ -89,6 +91,7 @@ const GfnCron = async (request?: any, response?: any): Promise<string> => {
 
       // Start updating data
       // Start a new batch
+      date = new Date();
       batch = afs.batch();
       count = 1;
 
@@ -118,6 +121,7 @@ const GfnCron = async (request?: any, response?: any): Promise<string> => {
               ? Number(game.steamUrl.split('/').pop())
               : null,
             status: game.status === '' ? 'AVAILABLE' : game.status,
+            updated: date,
           },
           { merge: true },
         );
@@ -130,6 +134,7 @@ const GfnCron = async (request?: any, response?: any): Promise<string> => {
             return err;
           });
           // Start a new batch
+          date = new Date();
           batch = afs.batch();
           count = 1;
         }
