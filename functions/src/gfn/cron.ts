@@ -41,6 +41,9 @@ const afs: FirebaseFirestore.Firestore = admin.firestore();
 const gfnRef: FirebaseFirestore.CollectionReference = afs.collection('gfn');
 
 const GfnCron = async (request?: any, response?: any): Promise<string> => {
+  // We can only batch write a max of 500 lines at a time
+  // Trying a smaller number because the last few records don't seem to get updated
+  const maxBatchSize: number = 100;
   // TODO Determine what the real object is here so we don't stringify just to parse again
   const games: Game[] = JSON.parse(JSON.stringify(await getAllGames()));
 
@@ -63,8 +66,8 @@ const GfnCron = async (request?: any, response?: any): Promise<string> => {
           );
           batch.update(gameRef, { status: 'ARCHIVED' });
 
-          // We can only batch write a max of 500 lines at a time
-          if (++count > 500) {
+          // Batches have a write limit
+          if (++count >= maxBatchSize) {
             batch.commit().catch((err) => {
               // Query not successful
               console.log(err);
@@ -119,8 +122,8 @@ const GfnCron = async (request?: any, response?: any): Promise<string> => {
           { merge: true },
         );
 
-        // We can only batch write a max of 500 lines at a time
-        if (++count > 500) {
+        // Batches have a write limit
+        if (++count >= maxBatchSize) {
           batch.commit().catch((err) => {
             // Query not successful
             console.log(err);
