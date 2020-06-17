@@ -38,6 +38,11 @@ export interface Game {
   free?: boolean;
 }
 
+export interface ResponseError {
+  error: boolean;
+  message: string;
+}
+
 class GfnService {
   /**
    * Helper function to convert Firestore data into an Observable
@@ -52,18 +57,16 @@ class GfnService {
     ).pipe(map((data: any) => data.docs.map((doc: any) => doc.data() as Game)));
   }
 
-  get games$(): Observable<any> {
+  get games$(): Observable<Game[] | ResponseError> {
     const query = db.collection('gfn');
 
-    const result$ = this._getData$(query).pipe(
+    return this._getData$(query).pipe(
       catchError((err: Error) => {
         // Network or other error, handle appropriately
         console.error(err);
         return of({ error: true, message: err.message });
       }),
     );
-
-    return result$;
   }
 }
 

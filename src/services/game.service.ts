@@ -18,6 +18,7 @@ export interface Game {
 
 class GameService {
   get games$(): Observable<Game[]> {
+    // TODO Need to handle these when a ResponseError is returned
     const gfnGames$ = gfnService.games$;
     const steamGames$ = steamService.games$;
 
