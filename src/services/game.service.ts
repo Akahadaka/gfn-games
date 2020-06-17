@@ -1,18 +1,19 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { combineLatest, concat } from 'rxjs';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import gfnService from './gfn.service';
 import steamService from './steam.service';
-import { map, tap, flatMap, concatAll } from 'rxjs/operators';
 
 export interface Game {
   id: number;
-  appid: number;
   title: string;
   source: 'Steam' | 'GFN';
   match: boolean;
   steamUrl: string;
-  free: boolean;
+  steamAppId: number;
+  status: 'ARCHIVED' | 'AVAILABLE';
+  free?: boolean;
 }
 
 class GameService {
@@ -27,10 +28,11 @@ class GameService {
           return list.map((item: any) => {
             return {
               id: item.id || item.appid,
-              appid: item.appid || null,
               title: item.title || item.name,
               source: item.source,
               steamUrl: item.steamUrl || null,
+              steamAppId: item.steamAppId || item.appid || null,
+              status: item.status || 'AVAILABLE',
               free: item.free || null,
             } as Game;
           });

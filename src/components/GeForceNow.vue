@@ -7,8 +7,8 @@
       <v-container
         :key="'GFN'+game.id"
         class="py-0"
-        v-bind:class="{'matched py-2': game.free || matches.includes(game.appid)}"
-        v-if="!matches.includes(game.appid) || game.source == 'GFN'"
+        v-bind:class="{'matched py-2': game.free || matches.includes(game.steamAppId), 'unavailable py-2': game.status != 'AVAILABLE'}"
+        v-if="!matches.includes(game.steamAppId) || game.source == 'GFN'"
       >
         <v-card
           outlined
@@ -68,8 +68,8 @@ export default Vue.extend({
       tap((games: Game[]) => {
         let prev: Game;
         games.map((game: Game) => {
-          if (prev && game.appid && prev.appid === game.appid) {
-            this.matches.push(game.appid);
+          if (prev && game.steamAppId && prev.steamAppId === game.steamAppId) {
+            this.matches.push(game.steamAppId);
           }
           prev = game;
         });
@@ -104,7 +104,16 @@ export default Vue.extend({
 .matched {
   background-color: var(--v-secondary-base);
 }
+.unavailable {
+  background-color: lightgray;
+  .title {
+    color: darkgrey;
+  }
+}
 .free {
   font-variant: small-caps;
+  .unavailable & {
+    background-color: lightgray !important;
+  }
 }
 </style>

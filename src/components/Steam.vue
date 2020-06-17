@@ -15,8 +15,8 @@
         <v-container
           :key="'Steam'+game.id"
           class="py-0"
-          v-bind:class="{'matched py-2': game.free || matches.includes(game.appid), 'non-steam' : !game.appid}"
-          v-if="!matches.includes(game.appid) || game.source == 'Steam'"
+          v-bind:class="{'matched py-2': game.free || matches.includes(game.steamAppId), 'non-steam' : !game.steamAppId, 'unavailable py-2': game.status != 'AVAILABLE'}"
+          v-if="!matches.includes(game.steamAppId) || game.source == 'Steam'"
         >
           <v-card
             outlined
@@ -87,8 +87,8 @@ export default Vue.extend({
       map((games: Game[]) => {
         let prev: Game;
         games.map((game: Game) => {
-          if (prev && game.appid && prev.appid === game.appid) {
-            this.matches.push(game.appid);
+          if (prev && game.steamAppId && prev.steamAppId === game.steamAppId) {
+            this.matches.push(game.steamAppId);
           }
           prev = game;
         });
@@ -146,6 +146,12 @@ export default Vue.extend({
   background-color: var(--v-secondary-base);
   &.non-steam {
     background-color: var(--v-primary-base);
+  }
+}
+.unavailable {
+  background-color: lightgray;
+  .title {
+    color: darkgrey;
   }
 }
 </style>
