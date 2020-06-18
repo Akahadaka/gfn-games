@@ -59,7 +59,6 @@ export default Vue.extend({
       gamesSubscription: {} as Subscription,
       games: [] as Game[],
       matches: [] as number[],
-      width: 0 as number,
     };
   },
 
