@@ -61,7 +61,7 @@ const GfnCron = async (request?: any, response?: any): Promise<void> => {
       let count = 1;
 
       if (data) {
-        data.forEach(async (game) => {
+        data.forEach((game) => {
           const gameRef: FirebaseFirestore.DocumentReference = gfnRef.doc(
             game.id.toString(),
           );
@@ -69,7 +69,7 @@ const GfnCron = async (request?: any, response?: any): Promise<void> => {
 
           // Batches have a write limit
           if (++count >= maxBatchSize) {
-            await batch.commit().catch((err) => {
+            batch.commit().catch((err) => {
               // Query not successful
               console.log(err);
               return err;
