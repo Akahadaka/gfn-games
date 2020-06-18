@@ -31,6 +31,8 @@ export interface Game {
   isHighlightsSupported: boolean;
   steamUrl: string;
   steamAppId: number;
+  epicUrl?: string;
+  epicAppId?: string;
   publisher: string;
   genres: Genre[];
   status: string;

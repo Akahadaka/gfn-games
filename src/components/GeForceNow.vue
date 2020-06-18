@@ -29,6 +29,14 @@
               </v-chip>
 
               <v-avatar
+                v-if="game.epicUrl"
+                size="20"
+                class="ma-3 mt-4"
+                tile
+              >
+                <img src="/assets/epic.svg" />
+              </v-avatar>
+              <v-avatar
                 v-if="game.steamUrl"
                 size="20"
                 class="ma-3 mt-4"
@@ -109,8 +117,12 @@ export default Vue.extend({
   .title {
     color: darkgrey;
   }
+  .v-avatar {
+    opacity: 0.4;
+  }
 }
 .free {
+  min-width: 47px;
   font-variant: small-caps;
   .unavailable & {
     background-color: lightgray !important;

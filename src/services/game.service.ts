@@ -12,6 +12,8 @@ export interface Game {
   match: boolean;
   steamUrl: string;
   steamAppId: number;
+  epicUrl?: string;
+  epicAppId?: string;
   status: 'ARCHIVED' | 'AVAILABLE';
   free?: boolean;
 }
@@ -33,6 +35,8 @@ class GameService {
               source: item.source,
               steamUrl: item.steamUrl || null,
               steamAppId: item.steamAppId || item.appid || null,
+              epicUrl: item.epicUrl || null,
+              epicAppId: item.epicAppId || null,
               status: item.status || 'AVAILABLE',
               free: item.free || null,
             } as Game;
