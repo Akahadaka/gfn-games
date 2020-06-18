@@ -43,8 +43,7 @@ const gfnRef: FirebaseFirestore.CollectionReference = afs.collection('gfn');
 
 const GfnCron = async (request?: any, response?: any): Promise<void> => {
   // We can only batch write a max of 500 lines at a time
-  // Trying a smaller number because the last few records don't seem to get updated
-  const maxBatchSize: number = 100;
+  const maxBatchSize: number = 500;
   // TODO Determine what the real object is here so we don't stringify just to parse again
   const games: Game[] = JSON.parse(JSON.stringify(await getAllGames()));
 
@@ -56,13 +55,13 @@ const GfnCron = async (request?: any, response?: any): Promise<void> => {
   // Before we begin, set all games to ARCHIVED
   return gfnRef
     .get()
-    .then((data) => {
+    .then(async (data) => {
       let date: Date;
       let batch = afs.batch();
       let count = 1;
 
       if (data) {
-        data.forEach((game) => {
+        data.forEach(async (game) => {
           const gameRef: FirebaseFirestore.DocumentReference = gfnRef.doc(
             game.id.toString(),
           );
@@ -70,7 +69,7 @@ const GfnCron = async (request?: any, response?: any): Promise<void> => {
 
           // Batches have a write limit
           if (++count >= maxBatchSize) {
-            batch.commit().catch((err) => {
+            await batch.commit().catch((err) => {
               // Query not successful
               console.log(err);
               return err;
@@ -82,7 +81,8 @@ const GfnCron = async (request?: any, response?: any): Promise<void> => {
         });
 
         // Commit any of the remainder
-        batch.commit().catch((err) => {
+        // Waiting for the batch to finish before we update the records again
+        await batch.commit().catch((err) => {
           // Query not successful
           console.log(err);
           return err;
