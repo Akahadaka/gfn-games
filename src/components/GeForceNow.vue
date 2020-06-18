@@ -5,7 +5,7 @@
     </v-container>
     <template v-for="game in games">
       <v-container
-        :key="game.id"
+        :key="'GFN'+game.id"
         class="py-0"
         v-bind:class="{'matched py-2': game.free || matches.includes(game.appid)}"
         v-if="!matches.includes(game.appid) || game.source == 'GFN'"
@@ -16,7 +16,9 @@
         >
           <template v-if="game.source == 'GFN'">
             <v-container class="pa-0 d-flex justify-space-between">
-              <v-card-title class="title">{{ game.title }}</v-card-title>
+              <v-card-title class="title">
+                <span class="title-text">{{game.title}}</span>
+              </v-card-title>
               <v-spacer />
               <v-chip
                 v-if="game.free"
@@ -86,8 +88,18 @@ export default Vue.extend({
 <style scoped lang="scss">
 .title {
   max-height: 48px;
-  overflow: hidden;
   padding: 10px;
+  overflow: hidden;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    height: 0;
+  }
+  &-text {
+    white-space: nowrap;
+    padding-right: 10px;
+  }
 }
 .matched {
   background-color: var(--v-secondary-base);
