@@ -36,8 +36,8 @@ export default Vue.extend({
 .col {
   &-left {
     // TODO Need to find out what's happened here.
-    // padding-right: 0;
-    padding: 0 0 0 24px;
+    padding-left: 24px;
+    padding-right: 0;
   }
   &-right {
     padding-left: 0;
