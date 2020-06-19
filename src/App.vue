@@ -10,7 +10,7 @@
           alt="logo"
           class="shrink mr-2"
           contain
-          src="/assets/nvidia_controller.png"
+          src="/assets/nvidia-controller.png"
           transition="scale-transition"
           width="60"
         />

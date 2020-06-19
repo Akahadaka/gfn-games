@@ -35,7 +35,9 @@ export default Vue.extend({
 <style scoped lang="scss">
 .col {
   &-left {
-    padding-right: 0;
+    // TODO Need to find out what's happened here.
+    // padding-right: 0;
+    padding: 0 0 0 24px;
   }
   &-right {
     padding-left: 0;
