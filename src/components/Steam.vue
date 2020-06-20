@@ -27,8 +27,23 @@
                 <span class="title-text">{{game.title}}</span>
               </v-card-title>
             </template>
+            <template v-else-if="game.steamUrl">
+              <v-flex class="d-flex justify-space-between">
+                <v-card-title class="title">
+                  <small>-</small>
+                </v-card-title>
+                <v-btn
+                  color="secondary"
+                  class="buy"
+                  @click="onBuy(game.steamUrl)"
+                >
+                  <span v-if="game.free">Play</span>
+                  <span v-else>Buy</span>
+                </v-btn>
+              </v-flex>
+            </template>
             <template v-else>
-              <v-card-title class="title"><small>-</small></v-card-title>
+              <v-card-title class="title"></v-card-title>
             </template>
           </v-card>
         </v-container>
@@ -113,6 +128,9 @@ export default Vue.extend({
       this.visibility = !this.visibility;
       steamService.filter = this.visibility ? [] : this.matches;
     },
+    onBuy(url: string) {
+      window.open(url, '_blank');
+    },
   },
 
   beforeDestroy() {
@@ -136,22 +154,29 @@ export default Vue.extend({
     white-space: nowrap;
     padding-right: 10px;
   }
+  .non-steam & {
+    padding: 24px;
+  }
 }
 .fixed {
   position: fixed;
   // TODO Find out how to contain a position:fixed element in parent bounds
-  width: calc(50% - 24px);
+  width: calc(50% - 12px);
 }
 .matched {
-  background-color: var(--v-secondary-base);
-  &.non-steam {
-    background-color: var(--v-primary-base);
-  }
+  // TODO Not widely supported
+  background-color: var(--v-secondary-lighten1);
 }
 .unavailable {
   background-color: lightgray;
   .title {
     color: darkgrey;
   }
+}
+.buy {
+  margin: 6px;
+}
+.non-steam {
+  opacity: 0;
 }
 </style>

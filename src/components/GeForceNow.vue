@@ -24,14 +24,19 @@
                 v-if="game.free"
                 class="ma-2 free"
                 color="secondary"
+              >free</v-chip>
+              <v-avatar
+                v-if="game.uplayUrl"
+                size="32"
+                class="mx-2 mt-3 mb-0"
+                tile
               >
-                free
-              </v-chip>
-
+                <img src="/assets/uplay.svg" />
+              </v-avatar>
               <v-avatar
                 v-if="game.epicUrl"
-                size="20"
-                class="ma-3 mt-4"
+                size="28"
+                class="ma-2 mt-3"
                 tile
               >
                 <img src="/assets/epic.svg" />
@@ -46,7 +51,9 @@
             </v-container>
           </template>
           <template v-else>
-            <v-card-title class="title"><small>-</small></v-card-title>
+            <v-card-title class="title">
+              <small>-</small>
+            </v-card-title>
           </template>
         </v-card>
       </v-container>
@@ -110,7 +117,7 @@ export default Vue.extend({
   }
 }
 .matched {
-  background-color: var(--v-secondary-base);
+  background-color: var(--v-secondary-lighten1);
 }
 .unavailable {
   background-color: lightgray;

@@ -48,7 +48,7 @@ class GameService {
       // Order by title
       map((data) =>
         data.sort((a: Game, b: Game) =>
-          a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1,
+          a.title.replace(/\W/g, '').localeCompare(b.title.replace(/\W/g, '')),
         ),
       ),
     );
