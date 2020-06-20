@@ -1,7 +1,7 @@
 <template>
   <v-container :class="!authenticated && 'fixed'">
     <v-container class="d-flex justify-space-between">
-      <h2>Steam Games</h2>
+      <h2>My Steam Games</h2>
       <v-btn
         icon
         @click="onVisibility"

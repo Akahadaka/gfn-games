@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-container>
-      <h2>GeForce NOW Games</h2>
+      <h2>All GeForce NOW Games</h2>
     </v-container>
     <template v-for="game in games">
       <v-container
