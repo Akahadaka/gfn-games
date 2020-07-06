@@ -15,7 +15,7 @@
         <v-container
           :key="'Steam'+game.id"
           class="py-0"
-          v-bind:class="{'matched py-2': game.free || matches.includes(game.steamAppId), 'non-steam' : !game.steamAppId, 'unavailable py-2': game.status != 'AVAILABLE'}"
+          :class="{'matched py-2': game.free || matches.includes(game.steamAppId), 'non-steam' : !game.steamAppId, 'unavailable py-2': game.status != 'AVAILABLE'}"
           v-if="!matches.includes(game.steamAppId) || game.source == 'Steam'"
         >
           <v-card
@@ -23,23 +23,48 @@
             class="d-inline-block my-2 d-flex"
           >
             <template v-if="game.source == 'Steam'">
-              <v-card-title class="title">
-                <span class="title-text">{{game.title}}</span>
-              </v-card-title>
+              <v-flex class="d-flex justify-space-between">
+                <v-card-title class="title">
+                  <span class="title-text">{{game.title}}</span>
+                </v-card-title>
+                <v-spacer />
+                <a
+                  :href="game.steamUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-2 visit align-self-center"
+                >Store Page</a>
+                <v-btn
+                  color="secondary"
+                  class="action play"
+                  @click="onPlay(game.steamAppId)"
+                >Play</v-btn>
+              </v-flex>
             </template>
             <template v-else-if="game.steamUrl">
               <v-flex class="d-flex justify-space-between">
                 <v-card-title class="title">
                   <small>-</small>
                 </v-card-title>
+                <v-spacer />
+                <a
+                  :href="game.steamUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-2 visit align-self-center"
+                >Store Page</a>
                 <v-btn
+                  v-if="game.free"
                   color="secondary"
-                  class="buy"
+                  class="action play"
+                  @click="onPlay(game.steamAppId)"
+                >Play</v-btn>
+                <!-- <v-btn
+                  color="primary"
+                  class="action buy"
                   @click="onBuy(game.steamUrl)"
-                >
-                  <span v-if="game.free">Play</span>
-                  <span v-else>Buy</span>
-                </v-btn>
+                  v-else
+                >Buy</v-btn>-->
               </v-flex>
             </template>
             <template v-else>
@@ -131,6 +156,9 @@ export default Vue.extend({
     onBuy(url: string) {
       window.open(url, '_blank');
     },
+    onPlay(appid: number) {
+      window.open(`steam://run/${appid}`, '_blank');
+    },
   },
 
   beforeDestroy() {
@@ -173,8 +201,15 @@ export default Vue.extend({
     color: darkgrey;
   }
 }
-.buy {
+.action {
   margin: 6px;
+  background-color: var(--v-primary-lighten1);
+}
+.play {
+  background-color: var(--v-secondary-lighten1);
+}
+.visit {
+  white-space: nowrap;
 }
 .non-steam {
   opacity: 0;

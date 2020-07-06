@@ -24,6 +24,8 @@ class GameService {
     const gfnGames$ = gfnService.games$;
     const steamGames$ = steamService.games$;
 
+    const steamUrl = 'https://store.steampowered.com/app/';
+
     return combineLatest(gfnGames$, steamGames$).pipe(
       // Convert each item to a common game model
       map((data: any) => {
@@ -33,7 +35,8 @@ class GameService {
               id: item.id || item.appid,
               title: item.title || item.name,
               source: item.source,
-              steamUrl: item.steamUrl || null,
+              steamUrl:
+                item.steamUrl || (item.appid ? steamUrl + item.appid : null),
               steamAppId: item.steamAppId || item.appid || null,
               epicUrl: item.epicUrl || null,
               epicAppId: item.epicAppId || null,
