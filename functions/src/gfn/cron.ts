@@ -34,6 +34,7 @@ interface Game {
   status: string;
   source: 'GFN';
   free?: boolean;
+  created: Date | null;
   updated: Date;
 }
 
@@ -65,7 +66,22 @@ const GfnCron = async (request?: any, response?: any): Promise<void> => {
           const gameRef: FirebaseFirestore.DocumentReference = gfnRef.doc(
             game.id.toString(),
           );
-          batch.update(gameRef, { status: 'ARCHIVED' });
+          let updatedValues: Partial<Game> = { status: 'ARCHIVED' };
+          // Set created for new games
+          if (!game.data().created) {
+            updatedValues = {
+              ...updatedValues,
+              created: game.data().updated,
+            };
+          }
+          // Reset created for archived games, in case they come back
+          if (game.data().status === 'ARCHIVED') {
+            updatedValues = {
+              ...updatedValues,
+              created: null,
+            };
+          }
+          batch.update(gameRef, updatedValues);
 
           // Batches have a write limit
           if (++count >= maxBatchSize) {
