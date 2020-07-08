@@ -21,6 +21,10 @@
               </v-card-title>
               <v-spacer />
               <v-chip
+                v-if="game.new"
+                class="ma-2 new"
+              >new</v-chip>
+              <v-chip
                 v-if="game.free"
                 class="ma-2 free"
                 color="secondary"
@@ -131,6 +135,15 @@ export default Vue.extend({
 .free {
   min-width: 47px;
   font-variant: small-caps;
+  .unavailable & {
+    background-color: lightgray !important;
+  }
+}
+.new {
+  min-width: 47px;
+  font-variant: small-caps;
+  background-color: orange !important;
+  color: white !important;
   .unavailable & {
     background-color: lightgray !important;
   }

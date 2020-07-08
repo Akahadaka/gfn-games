@@ -18,6 +18,7 @@ export interface Game {
   uplayAppId?: string;
   status: 'ARCHIVED' | 'AVAILABLE';
   free?: boolean;
+  new?: boolean;
 }
 
 class GameService {
@@ -27,6 +28,7 @@ class GameService {
     const steamGames$ = steamService.games$;
 
     const steamUrl = 'https://store.steampowered.com/app/';
+    const twoWeeks = 60 * 60 * 24 * 14 * 1000;
 
     return combineLatest(gfnGames$, steamGames$).pipe(
       // Convert each item to a common game model
@@ -46,6 +48,9 @@ class GameService {
               uplayAppId: item.uplayAppId || null,
               status: item.status || 'AVAILABLE',
               free: item.free || null,
+              new:
+                item.created &&
+                Date.now() - item.created.seconds * 1000 < twoWeeks,
             } as Game;
           });
         });

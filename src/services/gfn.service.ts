@@ -37,6 +37,8 @@ export interface Game {
   genres: Genre[];
   status: string;
   source: 'GFN';
+  created: firebase.firestore.Timestamp | null;
+  updated: firebase.firestore.Timestamp;
   free?: boolean;
 }
 
