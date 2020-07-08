@@ -14,6 +14,8 @@ export interface Game {
   steamAppId: number;
   epicUrl?: string;
   epicAppId?: string;
+  uplayUrl?: string;
+  uplayAppId?: string;
   status: 'ARCHIVED' | 'AVAILABLE';
   free?: boolean;
 }
@@ -40,6 +42,8 @@ class GameService {
               steamAppId: item.steamAppId || item.appid || null,
               epicUrl: item.epicUrl || null,
               epicAppId: item.epicAppId || null,
+              uplayUrl: item.uplayUrl || null,
+              uplayAppId: item.uplayAppId || null,
               status: item.status || 'AVAILABLE',
               free: item.free || null,
             } as Game;
