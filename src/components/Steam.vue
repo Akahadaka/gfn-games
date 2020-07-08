@@ -158,6 +158,7 @@ export default Vue.extend({
     },
     onPlay(appid: number) {
       window.open(`steam://run/${appid}`, '_blank');
+      // window.open(`com.nvidia.gfnpc.streamer.${id}.app`, '_blank')
     },
   },
 
