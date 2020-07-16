@@ -7,13 +7,18 @@
     >
       <div class="d-flex align-center">
         <v-img
-          alt="Nvidia Logo"
+          alt="logo"
           class="shrink mr-2"
           contain
-          src="/assets/nvidia.svg"
+          src="/assets/nvidia-controller.png"
           transition="scale-transition"
-          width="100"
+          width="60"
         />
+      </div>
+
+      <div class="logo">
+        <span class="nvidia">GeForce NOW streaming</span><br />
+        <small>Find and compare with your existing library</small>
       </div>
 
       <v-spacer></v-spacer>
@@ -80,5 +85,19 @@ html::-webkit-scrollbar {
 
 #nav a.router-link-exact-active {
   color: var(--v-secondary-base);
+}
+.logo {
+  color: var(--v-accent-base);
+  font-weight: 900;
+  small {
+    font-size: xx-small;
+    letter-spacing: 0.27em;
+  }
+  .nvidia {
+    font-size: 1.2em;
+    font-variant: small-caps;
+    letter-spacing: 0.2em;
+  }
+  line-height: 14px;
 }
 </style>

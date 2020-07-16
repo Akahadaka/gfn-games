@@ -1,14 +1,14 @@
 <template>
   <v-container>
     <v-container>
-      <h2>GeForce NOW Games</h2>
+      <h2>All GeForce NOW Games</h2>
     </v-container>
     <template v-for="game in games">
       <v-container
         :key="'GFN'+game.id"
         class="py-0"
-        v-bind:class="{'matched py-2': game.free || matches.includes(game.appid)}"
-        v-if="!matches.includes(game.appid) || game.source == 'GFN'"
+        v-bind:class="{'matched py-2': game.free || matches.includes(game.steamAppId), 'unavailable py-2': game.status != 'AVAILABLE'}"
+        v-if="!matches.includes(game.steamAppId) || game.source == 'GFN'"
       >
         <v-card
           outlined
@@ -21,13 +21,30 @@
               </v-card-title>
               <v-spacer />
               <v-chip
+                v-if="game.new"
+                class="ma-2 new"
+              >new</v-chip>
+              <v-chip
                 v-if="game.free"
                 class="ma-2 free"
                 color="secondary"
+              >free</v-chip>
+              <v-avatar
+                v-if="game.uplayUrl"
+                size="32"
+                class="mx-2 mt-3 mb-0"
+                tile
               >
-                free
-              </v-chip>
-
+                <img src="/assets/uplay.svg" />
+              </v-avatar>
+              <v-avatar
+                v-if="game.epicUrl"
+                size="28"
+                class="ma-2 mt-3"
+                tile
+              >
+                <img src="/assets/epic.svg" />
+              </v-avatar>
               <v-avatar
                 v-if="game.steamUrl"
                 size="20"
@@ -38,7 +55,9 @@
             </v-container>
           </template>
           <template v-else>
-            <v-card-title class="title"><small>-</small></v-card-title>
+            <v-card-title class="title">
+              <small>-</small>
+            </v-card-title>
           </template>
         </v-card>
       </v-container>
@@ -68,8 +87,8 @@ export default Vue.extend({
       tap((games: Game[]) => {
         let prev: Game;
         games.map((game: Game) => {
-          if (prev && game.appid && prev.appid === game.appid) {
-            this.matches.push(game.appid);
+          if (prev && game.steamAppId && prev.steamAppId === game.steamAppId) {
+            this.matches.push(game.steamAppId);
           }
           prev = game;
         });
@@ -102,9 +121,31 @@ export default Vue.extend({
   }
 }
 .matched {
-  background-color: var(--v-secondary-base);
+  background-color: var(--v-secondary-lighten1);
+}
+.unavailable {
+  background-color: lightgray;
+  .title {
+    color: darkgrey;
+  }
+  .v-avatar {
+    opacity: 0.4;
+  }
 }
 .free {
+  min-width: 47px;
   font-variant: small-caps;
+  .unavailable & {
+    background-color: lightgray !important;
+  }
+}
+.new {
+  min-width: 47px;
+  font-variant: small-caps;
+  background-color: orange !important;
+  color: white !important;
+  .unavailable & {
+    background-color: lightgray !important;
+  }
 }
 </style>

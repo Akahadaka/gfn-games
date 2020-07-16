@@ -1,24 +1,34 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { combineLatest, concat } from 'rxjs';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import gfnService from './gfn.service';
 import steamService from './steam.service';
-import { map, tap, flatMap, concatAll } from 'rxjs/operators';
 
 export interface Game {
   id: number;
-  appid: number;
   title: string;
   source: 'Steam' | 'GFN';
   match: boolean;
   steamUrl: string;
-  free: boolean;
+  steamAppId: number;
+  epicUrl?: string;
+  epicAppId?: string;
+  uplayUrl?: string;
+  uplayAppId?: string;
+  status: 'ARCHIVED' | 'AVAILABLE';
+  free?: boolean;
+  new?: boolean;
 }
 
 class GameService {
   get games$(): Observable<Game[]> {
+    // TODO Need to handle these when a ResponseError is returned
     const gfnGames$ = gfnService.games$;
     const steamGames$ = steamService.games$;
+
+    const steamUrl = 'https://store.steampowered.com/app/';
+    const twoWeeks = 60 * 60 * 24 * 14 * 1000;
 
     return combineLatest(gfnGames$, steamGames$).pipe(
       // Convert each item to a common game model
@@ -27,11 +37,20 @@ class GameService {
           return list.map((item: any) => {
             return {
               id: item.id || item.appid,
-              appid: item.appid || null,
               title: item.title || item.name,
               source: item.source,
-              steamUrl: item.steamUrl || null,
+              steamUrl:
+                item.steamUrl || (item.appid ? steamUrl + item.appid : null),
+              steamAppId: item.steamAppId || item.appid || null,
+              epicUrl: item.epicUrl || null,
+              epicAppId: item.epicAppId || null,
+              uplayUrl: item.uplayUrl || null,
+              uplayAppId: item.uplayAppId || null,
+              status: item.status || 'AVAILABLE',
               free: item.free || null,
+              new:
+                item.created &&
+                Date.now() - item.created.seconds * 1000 < twoWeeks,
             } as Game;
           });
         });
@@ -41,7 +60,7 @@ class GameService {
       // Order by title
       map((data) =>
         data.sort((a: Game, b: Game) =>
-          a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1,
+          a.title.replace(/\W/g, '').localeCompare(b.title.replace(/\W/g, '')),
         ),
       ),
     );

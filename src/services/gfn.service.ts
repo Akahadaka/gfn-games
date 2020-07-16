@@ -1,50 +1,45 @@
-import { of } from 'rxjs';
+import { of, fromEventPattern } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { fromFetch } from 'rxjs/fetch';
-import {
-  tap,
-  map,
-  switchMap,
-  catchError,
-  concatAll,
-  flatMap,
-} from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
-const genres = [
-  'Action',
-  'Adventure',
-  'Arcade',
-  'Casual',
-  'Family',
-  'First-Person Shooter',
-  'Free To Play',
-  'Indie',
-  'Massively Multiplayer Online',
-  'Multiplayer Online Battle Arena',
-  'Platformer',
-  'Puzzle',
-  'Racing',
-  'Role Playing',
-  'Simulation',
-  'Sports',
-  'Strategy',
-  'Tech Demo',
-];
+import { db } from '@/firebase';
 
-export type Genre = typeof genres;
+export type Genre =
+  | 'Action'
+  | 'Adventure'
+  | 'Arcade'
+  | 'Casual'
+  | 'Family'
+  | 'First-Person Shooter'
+  | 'Free To Play'
+  | 'Indie'
+  | 'Massively Multiplayer Online'
+  | 'Multiplayer Online Battle Arena'
+  | 'Platformer'
+  | 'Puzzle'
+  | 'Racing'
+  | 'Role Playing'
+  | 'Simulation'
+  | 'Sports'
+  | 'Strategy'
+  | 'Tech Demo';
 
 export interface Game {
   id: number;
-  appid?: number;
   title: string;
   isFullyOptimized: boolean;
   isHighlightsSupported: boolean;
   steamUrl: string;
+  steamAppId: number;
+  epicUrl?: string;
+  epicAppId?: string;
   publisher: string;
-  genres: Genre;
+  genres: Genre[];
   status: string;
   source: 'GFN';
-  free: boolean;
+  created: firebase.firestore.Timestamp | null;
+  updated: firebase.firestore.Timestamp;
+  free?: boolean;
 }
 
 export interface ResponseError {
@@ -53,33 +48,23 @@ export interface ResponseError {
 }
 
 class GfnService {
-  private readonly APIURL =
-    'https://us-central1-gfn-games.cloudfunctions.net/gfn';
+  /**
+   * Helper function to convert Firestore data into an Observable
+   * @param query
+   */
+  private _getData$(
+    query: firebase.firestore.Query<firebase.firestore.DocumentData>,
+  ): Observable<Game[]> {
+    return fromEventPattern(
+      (handler) => query.onSnapshot(handler),
+      (handler, unsubscribe) => unsubscribe(),
+    ).pipe(map((data: any) => data.docs.map((doc: any) => doc.data() as Game)));
+  }
 
   get games$(): Observable<Game[] | ResponseError> {
-    const url: string = `${this.APIURL}/GetAllGames`;
+    const query = db.collection('gfn');
 
-    return fromFetch(url).pipe(
-      switchMap((response: Response) => {
-        if (!response.ok) {
-          // Server is returning a status requiring the client to try something else.
-          return of({ error: true, message: `Error ${response.status}` });
-        }
-        return response.json();
-      }),
-      // Add source to the game model
-      map((games: Game[]) => {
-        return games.map((game: Game) => {
-          return {
-            ...game,
-            appid: game.steamUrl
-              ? Number(game.steamUrl.split('/').pop())
-              : null,
-            source: 'GFN',
-            free: game.genres.includes('Free To Play'),
-          } as Game;
-        });
-      }),
+    return this._getData$(query).pipe(
       catchError((err: Error) => {
         // Network or other error, handle appropriately
         console.error(err);
