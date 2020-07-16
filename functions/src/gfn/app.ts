@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as cors from 'cors';
 
-import { login, getOwnedGames, getAppDetails } from './api';
+import { getAllGames } from './api';
 
 const app = express();
 
@@ -12,13 +12,7 @@ app.use(cors({ origin: true }));
 // app.use(myMiddleware);
 
 // build multiple CRUD interfaces:
-app.get('/login', (req, res) => res.send(login()));
-app.get('/profile/:id/GetOwnedGames', async (req, res) =>
-  res.send(await getOwnedGames(req.params.id)),
-);
-app.get('/app/:id/GetAppDetails', async (req, res) =>
-  res.send(await getAppDetails(req.params.id)),
-);
+app.get('/GetAllGames', async (req, res) => res.send(await getAllGames()));
 
 // Expose Express API as a single Cloud Function:
 export default app;

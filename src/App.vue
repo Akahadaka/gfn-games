@@ -7,13 +7,18 @@
     >
       <div class="d-flex align-center">
         <v-img
-          alt="Nvidia Logo"
+          alt="logo"
           class="shrink mr-2"
           contain
-          src="/assets/nvidia.svg"
+          src="/assets/nvidia-controller.png"
           transition="scale-transition"
-          width="100"
+          width="60"
         />
+      </div>
+
+      <div class="logo">
+        <span class="nvidia">GeForce NOW streaming</span><br />
+        <small>Find and compare with your existing library</small>
       </div>
 
       <v-spacer></v-spacer>
@@ -29,14 +34,14 @@
     </v-app-bar>
 
     <v-content>
-      <Home />
+      <router-view />
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import Home from "@/pages/Home.vue";
+import Home from "@/views/Home.vue";
 
 export default Vue.extend({
   name: "App",
@@ -54,11 +59,45 @@ export default Vue.extend({
 <style lang="scss">
 html {
   height: 100%;
-  // scrollbar-width: none; /* For disabling vertical scrolbar from showing on Firefox */
-  // -ms-overflow-style: none; /* For disabling vertical scrolbar from showing on Internet Explorer and Edge */
+  // scrollbar-width   : none;  // For disabling vertical scrolbar from showing on Firefox
+  // -ms-overflow-style: none;  // For disabling vertical scrolbar from showing on Internet Explorer and Edge
 }
 
-// html::-webkit-scrollbar {
-//   width: 0px; /* For disabling vertical scrolbar from showing on Chrome, Safari, and Opera */
-// }
+html::-webkit-scrollbar {
+  // width: 0px; // For disabling vertical scrolbar from showing on Chrome, Safari, and Opera
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--v-primary-base);
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: var(--v-primary-base);
+}
+
+#nav a.router-link-exact-active {
+  color: var(--v-secondary-base);
+}
+.logo {
+  color: var(--v-accent-base);
+  font-weight: 900;
+  small {
+    font-size: xx-small;
+    letter-spacing: 0.27em;
+  }
+  .nvidia {
+    font-size: 1.2em;
+    font-variant: small-caps;
+    letter-spacing: 0.2em;
+  }
+  line-height: 14px;
+}
 </style>

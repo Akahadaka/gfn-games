@@ -1,15 +1,19 @@
 <template>
   <main id="home">
-    <v-container>
-      <v-row class="games-list">
-        <v-col cole="6">
-          <GeForceNow />
-        </v-col>
-        <v-col cols="6">
-          <Steam />
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-row>
+      <v-col
+        cols="6"
+        class="col-left"
+      >
+        <GeForceNow />
+      </v-col>
+      <v-col
+        cols="6"
+        class="col-right"
+      >
+        <Steam />
+      </v-col>
+    </v-row>
   </main>
 </template>
 
@@ -29,7 +33,12 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.games-list {
-  scrollbar-width: auto;
+.col {
+  &-left {
+    padding-right: 0;
+  }
+  &-right {
+    padding-left: 0;
+  }
 }
 </style>

@@ -1,12 +1,17 @@
-import Vue from 'vue'
-import App from './App.vue'
-import vuetify from './plugins/vuetify';
-import 'roboto-fontface/css/roboto/roboto-fontface.css'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import Vue from 'vue';
+import './firebase';
 
-Vue.config.productionTip = false
+import App from './App.vue';
+import router from './router';
+import vuetify from './plugins/vuetify';
+
+import 'roboto-fontface/css/roboto/roboto-fontface.css';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
+
+Vue.config.productionTip = false;
 
 new Vue({
   vuetify,
-  render: h => h(App)
-}).$mount('#app')
+  router,
+  render: (h) => h(App),
+}).$mount('#app');
