@@ -1,8 +1,6 @@
 import * as https from 'https';
 import * as url from 'url';
 
-const GFNPUBLICURL = 'https://static.nvidiagrid.net';
-
 const URL = url.URL;
 
 const httpsGetJson = (uri: string): Promise<string> => {
@@ -27,8 +25,18 @@ const httpsGetJson = (uri: string): Promise<string> => {
 };
 
 export const getAllGames = async (): Promise<string> => {
-  const uri = new URL(`${GFNPUBLICURL}/supported-public-game-list/gfnpc.json`);
+  const uri = new URL(
+    'https://static.nvidiagrid.net/supported-public-game-list/gfnpc.json',
+  );
   uri.searchParams.set('JSON', 'true');
+
+  return await httpsGetJson(uri.toString());
+};
+
+export const getAppGames = async (): Promise<string> => {
+  const uri = new URL('https://layouts.nvidiagrid.net/v1/public/apps');
+  uri.searchParams.set('language-code', 'en_GB');
+  uri.searchParams.set('vpc-id', 'NP-SEA-01');
 
   return await httpsGetJson(uri.toString());
 };
