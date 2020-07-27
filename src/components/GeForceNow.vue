@@ -30,15 +30,15 @@
                 color="secondary"
               >free</v-chip>
               <v-avatar
-                v-if="game.uplayUrl"
+                v-if="game.store === 'uplay'"
                 size="32"
                 class="mx-2 mt-3 mb-0"
-                tile
+                style="opacity: 0.7"
               >
                 <img src="/assets/uplay.svg" />
               </v-avatar>
               <v-avatar
-                v-if="game.epicUrl"
+                v-if="game.store === 'epic'"
                 size="28"
                 class="ma-2 mt-3"
                 tile
@@ -46,11 +46,19 @@
                 <img src="/assets/epic.svg" />
               </v-avatar>
               <v-avatar
-                v-if="game.steamUrl"
+                v-if="game.store === 'steam'"
                 size="20"
                 class="ma-3 mt-4"
               >
                 <img src="/assets/steam.svg" />
+              </v-avatar>
+              <v-avatar
+                v-if="game.store === 'origin'"
+                size="28"
+                class="ma-2 mt-3"
+                style="opacity: 0.7"
+              >
+                <img src="/assets/origin.svg" />
               </v-avatar>
             </v-container>
           </template>

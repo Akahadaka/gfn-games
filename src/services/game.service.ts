@@ -10,6 +10,7 @@ export interface Game {
   title: string;
   source: 'Steam' | 'GFN';
   match: boolean;
+  store: string;
   steamUrl: string;
   steamAppId: number;
   epicUrl?: string;
@@ -39,6 +40,7 @@ class GameService {
               id: item.id || item.appid,
               title: item.title || item.name,
               source: item.source,
+              store: item.store,
               steamUrl:
                 item.steamUrl || (item.appid ? steamUrl + item.appid : null),
               steamAppId: item.steamAppId || item.appid || null,

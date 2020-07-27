@@ -27,19 +27,26 @@ export type Genre =
 export interface Game {
   id: number;
   title: string;
-  isFullyOptimized: boolean;
-  isHighlightsSupported: boolean;
-  steamUrl: string;
-  steamAppId: number;
+  sortName: string;
+  shortName: string;
+  shortDescription: string;
+  store: string;
+  steamUrl?: string;
+  steamAppId?: number;
   epicUrl?: string;
   epicAppId?: string;
   publisher: string;
   genres: Genre[];
+  keywords: string[];
   status: string;
   source: 'GFN';
+  free?: boolean;
   created: firebase.firestore.Timestamp | null;
   updated: firebase.firestore.Timestamp;
-  free?: boolean;
+  isFullyOptimized: boolean;
+  isAnselSupported: boolean;
+  isFreeStyleSupported: boolean;
+  isHighlightsSupported: boolean;
 }
 
 export interface ResponseError {
