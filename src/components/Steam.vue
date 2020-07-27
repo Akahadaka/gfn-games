@@ -37,7 +37,7 @@
                 <v-btn
                   color="secondary"
                   class="action play"
-                  @click="onPlay(game.steamAppId)"
+                  @click="(matches.includes(game.steamAppId)) ? onPlay(game.id) : onOpen(game.steamAppId)"
                 >Play</v-btn>
               </v-flex>
             </template>
@@ -84,16 +84,17 @@
         outlined
         class="my-2"
       >
-        <v-card-title>Provide your Steam ID</v-card-title>
-        <v-card-subtitle>
-          <em>(This is a number)</em>
-        </v-card-subtitle>
+        <v-card-title>Compare with your Steam games here</v-card-title>
         <v-container class="pa-4">
           <v-text-field
             v-model="steamid"
             label="Enter your Steam ID"
+            hint="This is a kinda hard to find number. Steam login coming soon."
           />
-          <v-btn @click="onSubmit">Okay</v-btn>
+          <v-btn
+            @click="onSubmit"
+            class="mt-3"
+          >Okay</v-btn>
         </v-container>
       </v-card>
     </form>
@@ -156,8 +157,11 @@ export default Vue.extend({
     onBuy(url: string) {
       window.open(url, '_blank');
     },
-    onPlay(appid: number) {
+    onOpen(appid: number) {
       window.open(`steam://run/${appid}`, '_blank');
+    },
+    onPlay(appid: number) {
+      window.open(`geforcenow://`, '_blank');
       // window.open(`com.nvidia.gfnpc.streamer.${id}.app`, '_blank')
     },
   },
